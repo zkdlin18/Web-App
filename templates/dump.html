@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f4f4f4;
+        position: relative;
+        overflow-x: hidden; /* Add this line to hide horizontal overflow */
+        }
+
+
+        header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        position: fixed; /* Set the position to fixed */
+        top: 0; /* Place the header at the top of the viewport */
+        z-index: 1000; /* Set a high z-index to ensure it's above other elements */
+        }
+
+
+        h1 {
+            margin: 0;
+        }
+        
+        .logout-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .logout-btn {
+            padding: 8px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+            margin-right: 5px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            color: rgb(204, 204, 36);
+        }
+
+        .dropdown-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 8px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-btn:hover {
+            opacity: 90%;
+        }
+
+        .dropdown {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            display: none;
+            flex-direction: column;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .dropdown a {
+            padding: 8px;
+            color: #333;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+
+        main {
+            max-width: 600px;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .post-container {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 15px;
+            margin-top: 20px;
+            position: relative;
+        }
+
+        .username {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .content {
+            text-align: left;
+            margin-bottom: 12px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .timestamp {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            color: #777;
+            font-size: 12px;
+        }
+
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .textarea-container {
+            position: relative;
+            margin-top: 80px;
+        }
+
+        textarea {
+            resize: none;
+            height: 70px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .char-count {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            color: #777;
+            font-size: 11px;
+            margin-bottom: 7px;
+        }
+
+        .button {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #494949;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+        .dltbtn{
+            border: none;
+            background-color: white;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-picture {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+.chat-popup {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        max-width: 300px;
+        width: 100%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+    }
+
+    .chat-header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+    }
+
+    .chat-messages {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    white-space: pre-wrap; /* This allows long words to break at any character */
+}
+
+/* ... (existing styles) */
+
+.message-container {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 10px; /* Adjust as needed to provide spacing between messages */
+}
+
+
+
+
+
+    .chat-input {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+
+
+
+
+    .chat-input textarea {
+        resize: none;
+        height: 40px;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 70%;
+        box-sizing: border-box;
+    }
+
+    .chat-input button {
+        padding: 8px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .chat-input button:hover {
+        background-color: #494949;
+    }
+    .logout-btn {
+            position: relative;
+            display: inline-block; /* Ensures the anchor behaves like a block element */
+            text-decoration: none; /* Removes default underline */
+        }
+
+        .logout-btn img {
+            position: absolute;
+            top: 0;
+            left: 0;
+        /* Adjust the width as needed */
+            z-index: 1; /* Ensure the image is on top of other content */
+        }
+
+        /* Optional styling for better visibility */
+        .logout-btn {
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .imgl{
+            margin-right: 10px;
+            width: 25px;
+        }
+
+        .imgl:hover{
+            opacity: 90%;
+        }
+        .closebtn{
+            border: none;
+            color: #333;
+            margin-top: 7px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #ffd700;
+            font-size: 15px;
+            margin-right: 7px;
+        }
+        .closebtn:hover{
+            opacity: 90%;
+        }
+        .trash{
+            width: 12px;
+            cursor: pointer;
+        }
+        .trash:hover{
+            opacity: 60%;
+        }
+    </style>
+ 
+    
+</head>
+
+<body>
+    <header>
+        <h1><img
+            src="https://usagif.com/wp-content/uploads/gifs/happy-cat-26.gif" width="50px" class="img-header">
+            </h1>
+        <div class="logout-container">
+            
+            {% if session.user_id %}
+            <a id="a" class="btnl" href="#" onclick="confirmLogout()">
+                  <img src="https://cdn-icons-png.flaticon.com/512/3580/3580082.png" class="imgl" title="logout">
+            </a>
+            {% endif %}
+        </div>
+    </header>
+    <div class="dropdown-btn" onclick="toggleDropdown()">
+        <img src="https://cdn3.iconfinder.com/data/icons/social-messaging-ui-color-line/254000/89-512.png" width="50px" title="Chat">
+    </div>
+    <div class="dropdown" id="chatDropdown">
+        {% for user in all_users %}
+            {% if user.username != session.username %}
+                <a href="#" onclick="startChat('{{ user.username }}')">{{ user.username }}</a>
+            {% endif %}
+        {% endfor %}
+    </div>
+        <div id="chatPopup" class="chat-popup">
+            <div class="chat-header">
+                <h2 id="chatUsername"></h2>
+                <button onclick="closeChat()" class="closebtn">x</button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+            </div>
+            <div class="chat-input">
+                <textarea id="messageInput" placeholder="Type your message..."></textarea>
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
+
+    <main>
+        <form action="/post" method="post" enctype="multipart/form-data">
+            <div class="textarea-container">
+                <textarea name="postContent" placeholder="What's on your mind?" maxlength="255"
+                    oninput="updateCharCount(this)" required></textarea>
+                <div class="char-count">0/255</div>
+            </div>
+            <button type="submit" class="button">Post</button>
+        </form>
+
+        {% for post in all_posts %}
+        <div class="post-container">
+            <div class="user-info">
+                <img
+                    src="https://images.vexels.com/media/users/3/294719/isolated/preview/0921c8db6ffe463083a1bbabaed359db-self-esteem-cute-cat-icon.png"
+                    alt="Profile Picture" class="profile-picture">
+                <p class="username">{{ post.username }}</p>
+            </div>
+            <!-- Existing content -->
+            <p class="content">{{ post.content }}</p>
+            <p class="timestamp">{{ post.created_at }}</p>
+
+            {% if session.user_id == post.user_id %}
+                <!-- Existing delete form -->
+                <form action="{{ url_for('delete_post', post_id=post.post_id) }}" method="post"
+                    onsubmit="return confirm('Are you sure you want to delete this post?')" class="delete-btn">
+                    <button type="submit" class="dltbtn"><img src="https://static.vecteezy.com/system/resources/previews/021/352/964/original/trash-icon-recycle-and-trash-sign-symbol-icon-free-png.png" class="trash" title="Delete"></button>
+                </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </main>
+    
+    <script>
+        function updateCharCount(textarea) {
+            const maxLength = textarea.getAttribute('maxlength');
+            const currentLength = textarea.value.length;
+            const charCountElement = textarea.nextElementSibling;
+            charCountElement.textContent = `${currentLength}/${maxLength}`;
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('chatDropdown');
+            dropdown.style.display = dropdown.style.display === 'none' ? 'flex' : 'none';
+        }
+    </script>
+    <script>
+        // Other scripts
+
+        function confirmLogout() {
+            const shouldLogout = confirm("Are you sure you want to logout?");
+            if (shouldLogout) {
+                // Redirect to the logout route or perform the logout action
+                window.location.href = "{{ url_for('logout') }}";
+            }
+        }
+    </script>
+    <script>
+       
+       function closeChat() {
+            const chatPopup = document.getElementById('chatPopup');
+            chatPopup.style.display = 'none';
+        }
+
+        function startChat(username) {
+            const chatPopup = document.getElementById('chatPopup');
+            const chatUsername = document.getElementById('chatUsername');
+
+            chatUsername.textContent = `${username}`;
+            chatPopup.style.display = 'block';
+
+            // Fetch and display previous messages or initialize the chat
+            updateChatInterface(username);
+        }
+    
+    </script>
+    <script>
+
+    function sendMessage() {
+        const receiverUsername = document.getElementById('chatUsername').innerText.split(': ')[1].trim();
+        const messageContent = document.getElementById('messageInput').value;
+
+        fetch('/chat/send_message', {
+            method: 'POST',
+            body: new URLSearchParams({
+                'receiver_username': receiverUsername,
+                'message_content': messageContent,
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then(response => {
+            if (response.ok) {
+                // Message sent successfully, update the chat
+                getMessages(receiverUsername);
+
+                // Dispatch a custom event for updating the chat interface
+                const event = new CustomEvent('messageSent', { detail: { receiverUsername } });
+                document.dispatchEvent(event);
+
+                // Clear the input field
+                document.getElementById('messageInput').value = '';
+            } else {
+                // Handle error
+                console.error('Failed to send message');
+            }
+        });
+    }
+
+
+    function getMessages(receiverUsername, currentUserUsername) {
+    fetch(`/chat/get_messages?receiver_username=${receiverUsername}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+
+            if (data.success) {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+
+                data.messages.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.classList.add('message-container');
+
+                    const messageText = document.createElement('div');
+
+                    // Check if the message is sent by the current user or the receiver
+                    const isSentByCurrentUser = message.sender_username === currentUserUsername;
+
+                    // Update this line to make the usernames bold
+                    messageText.innerHTML = `<strong>${isSentByCurrentUser ? 'You' : message.sender_username}</strong>: ${message.content}`;
+                    messageText.classList.add(isSentByCurrentUser ? 'sent-message' : 'received-message');
+
+                    messageElement.appendChild(messageText);
+                    chatMessages.appendChild(messageElement);
+                });
+            } else {
+                console.error('Failed to retrieve messages');
+            }
+        });
+}
+
+
+
+
+        // ... (other functions)
+        document.addEventListener('messageSent', (event) => {
+    // Handle the event to update the chat interface
+    const receiverUsername = event.detail.receiverUsername;
+
+    // Assuming you have a function to update the chat interface, e.g., updateChatInterface
+    updateChatInterface(receiverUsername);
+});
+
+
+function updateChatInterface(receiverUsername) {
+        const chatPopup = document.getElementById('chatPopup');
+        const chatUsername = document.getElementById('chatUsername');
+
+        chatUsername.textContent = `${receiverUsername}`;
+        chatPopup.style.display = 'block';
+
+        getMessages(receiverUsername);
+    }
+    </script>
+    
+</body>
+
+</html>
